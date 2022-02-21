@@ -12,7 +12,7 @@ var flag;
     var n = (textDeep - textHeight) / pxForTimes + 1;
 
 	
-	n = n<=0 ? 1 : n
+	n = n <= 0 ? 1 : n
     var littleBarHeight = barHeigth / n;
 
     var pxForTimesText = 0;
