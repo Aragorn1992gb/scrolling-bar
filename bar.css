@@ -1,0 +1,63 @@
+#containerBar {
+    /*top: 45px;*/
+    height: 347px;
+    width: 40px;
+    background-color: rgba(216,216,216,0.27);
+    position: relative;
+    float: left;
+}
+#movingBar {
+    height: 86px;
+    width: 40px;
+    background-color: #D8D8D8;
+    position: absolute;
+}
+
+.text-container {
+    width: 300px;
+    float: left;
+    overflow: hidden;
+    height: 347px;
+    position: relative;
+    top: 80px;
+}
+
+.buttonBarUp {
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    background-color: #3E506B;
+    position: absolute;
+    float: left;
+    left: 308px;
+}
+
+.buttonBarDown {
+    height: 40px;
+    width: 40px;
+    border-radius: 10px;
+    background-color: #3E506B;
+    float: left;
+    position: absolute;
+    left: 308px;
+}
+
+.arrowBarUp {	
+    height: 20px;
+    width: 12px;
+    transform: rotate(270deg);
+    background-color: #FFFFFF;
+    position: absolute;
+}
+
+.arrowBarDown {	
+    height: 20px;
+    width: 12px;
+    transform: rotate(270deg);
+    background-color: #FFFFFF;
+    position: absolute;
+}
+  
+body {
+      overflow:hidden;
+}

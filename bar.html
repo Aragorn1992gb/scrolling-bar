@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="bar.css">
+</head>
+
+<body>
+
+  <div id="everything-container">
+
+    <div class="text-container" id="text-container">
+      <div id="text-container-2">
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae sequi officia itaque possimus aliquam
+          consequuntur maxime eius, enim similique distinctio hic, a optio nihil, sunt quia omnis vero quod tenetur?
+          Eum autem tenetur cumque, nemo commodi, quam asperiores debitis inventore dicta delectus fugiat odio aut dolor
+          officia eius id? Exercitationem beatae placeat error iusto repudiandae veritatis hic eveniet harum sunt?
+          Libero explicabo assumenda deserunt beatae ullam, debitis nesciunt totam delectus vero dolorum veritatis
+          cupiditate ipsum, animi cumque vel fugit modi repellendus accusantium similique aut nihil, incidunt ipsa
+          commodi
+          tempora. Sint.
+          A ut modi commodi quasi error dolor at quia, iusto, quam maxime qui provident corrupti ab ea molestiae
+          suscipit
+          in fugiat! Reiciendis, eaque nostrum. Ex eaque delectus tempora sapiente dolorum?
+          Iure, voluptatibus minus? Reprehenderit dolores a modi aliquam sint nostrum possimus eos in incidunt earum.
+          Delectus, deserunt est? Quos magni tempore eligendi optio, perspiciatis a et in dicta quo maxime.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor eaque sed reiciendis eligendi minima, quam
+          beatae temporibus voluptates debitis itaque vitae voluptatem dolorem modi officia architecto at voluptatum non
+          delectus.
+          Mollitia doloremque eum ducimus consequuntur libero aspernatur eius iure numquam aliquam sint accusantium
+          quasi eaque nobis tenetur, quibusdam sit non placeat fugiat praesentium exercitationem tempore, vel esse.
+          Doloribus, amet labore!
+          Consectetur magnam dolorum odio mollitia recusandae nemo dolore rerum amet ea eaque nam, vitae quam facilis
+          unde, aspernatur vel numquam, natus quod. Enim deleniti corporis laborum a numquam aspernatur totam.
+          Nihil possimus illum, sapiente quibusdam ex quasi assumenda dolores quia cumque error, dignissimos ducimus
+          eaque amet sit commodi repellat reprehenderit veniam, inventore fugiat deleniti laborum eligendi earum
+          aperiam. Reiciendis, perferendis?
+          Libero ullam nesciunt dicta repellendus quisquam inventore, ut magni, accusamus unde veritatis ipsa
+          necessitatibus laudantium. Rerum laboriosam eligendi necessitatibus possimus, quibusdam ea, deleniti facilis
+          fuga neque minus ut optio? Non.
+
+        </p>
+      </div>
+    </div>
+
+    <div id="wholeBar">
+      <div id="upButton" class="buttonBarUp">
+        <div id="upArrow" class="arrowBarUp"></div>
+      </div>
+      <div id="containerBar">
+        <div id="movingBar"></div>
+      </div>
+      <div id="downButton" class="buttonBarDown">
+        <div id="downArrow" class="arrowBarDown"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    var flag;
+
+    var barHeigth = (document.getElementById("containerBar").clientHeight);
+    var textTop = (document.getElementById("text-container").offsetTop);
+    var textHeight = (document.getElementById("text-container").clientHeight);
+
+    var textDeep = document.getElementById("text-container-2").offsetHeight;
+
+    var scrollPercentage = 5;
+    var pxForTimes = (textDeep * scrollPercentage) / 100;
+
+    var n = (textDeep - textHeight) / pxForTimes + 1;
+
+
+    var littleBarHeight = barHeigth / n;
+
+    var pxForTimesText = 0;
+
+    var pos = 0;
+
+    var limitStep = 0;
+
+    var contBar = document.getElementById("movingBar");
+    contBar.style.height = littleBarHeight.toString() + 'px';
+
+    var elementTxtContainer = document.getElementById('text-container');
+    var positionTextTop = elementTxtContainer.getBoundingClientRect();
+    var elementMvBar = document.getElementById("movingBar");
+
+    document.getElementById("containerBar").style.top = textTop + "px";
+    document.getElementById("upButton").style.top = (textTop - 50).toString() + 'px';
+    document.getElementById("downButton").style.top = (textTop + barHeigth + 25).toString() + 'px';
+
+    function scrollDown(pixel) {
+      document.getElementById("text-container").scrollTop += pixel;
+    }
+
+    function scrollUp(pixel) {
+      document.getElementById("text-container").scrollTop -= pixel;
+    }
+
+    function moveBar1(event) {
+
+      var rect = elementMvBar.getBoundingClientRect();
+      var bbMovement = rect.bottom - textTop;
+      var btMovement = rect.top - textTop;
+
+      flag = false;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (flag) {
+          clearInterval(id);
+        } else {
+          pos += littleBarHeight;
+          scrollDown(pxForTimes);
+          flag = true;
+
+          if (bbMovement >= barHeigth - littleBarHeight) {
+            pos = (barHeigth - littleBarHeight);
+            elementMvBar.style.bottom = (barHeigth) + 'px';
+          }
+          elementMvBar.style.top = pos + 'px';
+        }
+      }
+    }
+
+    function moveBar2(event) {
+      var clickedY = event.clientY - textTop;
+      var rect = elementMvBar.getBoundingClientRect();
+      var bbMovement = rect.bottom - textTop;
+      var btMovement = rect.top - textTop;
+
+      flag = false;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (flag) {
+          clearInterval(id);
+        } else {
+          if ((clickedY > (bbMovement + limitStep)) || (clickedY < (btMovement - limitStep))) {
+            var jumpScrollPercent = (clickedY * 100) / barHeigth;
+            pxForTimesText = (jumpScrollPercent * (textDeep - textHeight)) / 100;
+            if (clickedY >= barHeigth - (littleBarHeight / 2)) {
+              pos = (barHeigth - littleBarHeight);
+              pxForTimesText = textDeep + textHeight;
+            }
+            else if (clickedY <= littleBarHeight / 2) {
+              pos = 0;
+              pxForTimesText = 0;
+            }
+            else {
+              pos = clickedY - (littleBarHeight / 2);
+            }
+            document.getElementById("text-container").scrollTop = pxForTimesText;
+          }
+          else if (clickedY < btMovement) {
+            if (clickedY <= littleBarHeight / 2) {
+              pos = 0;
+            }
+            else {
+              pos -= littleBarHeight;
+            }
+            scrollUp(pxForTimes);
+          }
+          else {
+
+            if (clickedY >= barHeigth - (littleBarHeight / 2)) {
+              pos = (barHeigth - littleBarHeight);
+            }
+            else {
+              pos += littleBarHeight;
+            }
+            scrollDown(pxForTimes);
+          }
+          flag = true;
+          elementMvBar.style.top = pos + 'px';
+        }
+      }
+    }
+
+    function moveBar1Up(event) {
+      var rect = elementMvBar.getBoundingClientRect();
+      var bbMovement = rect.bottom - textTop;
+      var btMovement = rect.top - textTop;
+      flag = false;
+      var id = setInterval(frame, 10);
+      function frame() {
+        if (flag) {
+          clearInterval(id);
+        } else {
+          pos -= littleBarHeight;
+          scrollUp(pxForTimes);
+          flag = true;
+
+          if (pos < (littleBarHeight / 2))
+            pos = 0;
+          elementMvBar.style.top = pos + 'px';
+        }
+      }
+    }
+
+    (document.getElementById("movingBar")).addEventListener("click", moveBar1);
+    (document.getElementById("containerBar")).addEventListener("click", moveBar2);
+    (document.getElementById("movingBar")).addEventListener("touchstart", moveBar1);
+    (document.getElementById("containerBar")).addEventListener("touchstart", moveBar2);
+    (document.getElementById("upButton")).addEventListener("click", moveBar1Up);
+    (document.getElementById("upButton")).addEventListener("touchstart", moveBar1Up);
+    (document.getElementById("downButton")).addEventListener("click", moveBar1);
+    (document.getElementById("downButton")).addEventListener("touchstart", moveBar1);
+  </script>
+
+</body>
+
+</html>
